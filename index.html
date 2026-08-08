@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrandStay Hotel - Room Booking System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* NAVBAR */
+        nav {
+            background-color: #1f2937;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f4b942;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #f4b942;
+        }
+
+        /* HERO */
+        .hero {
+            height: 550px;
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background-color: #f4b942;
+            color: #222;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #d99b25;
+        }
+
+        /* GENERAL SECTION */
+        section {
+            padding: 70px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 35px;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        /* ROOMS */
+        .rooms {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .room-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transition: 0.3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .room-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .room-content {
+            padding: 20px;
+        }
+
+        .room-content h3 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #d18b00;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .room-content p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .facilities {
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        /* ABOUT */
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-image {
+            width: 50%;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .about-text {
+            width: 50%;
+        }
+
+        .about-text h2 {
+            font-size: 35px;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .facilities-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .facility {
+            background: white;
+            padding: 12px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* BOOKING */
+        .booking-container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .booking-container .btn {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #totalAmount {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        #confirmation {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-left: 5px solid #2e7d32;
+            border-radius: 5px;
+        }
+
+        /* CONTACT */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .contact-info {
+            background-color: #1f2937;
+            color: white;
+            padding: 35px;
+            border-radius: 10px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            font-size: 25px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .contact-form textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        footer p {
+            margin: 5px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+            .rooms {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-container {
+                flex-direction: column;
+            }
+
+            .about-image,
+            .about-text {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .hero-content h1 {
+                font-size: 35px;
+            }
+
+            .rooms {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .facilities-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav>
+        <div class="logo">Grand<span>Stay</span></div>
+
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#rooms">Rooms</a></li>
+            <li><a href="#booking">Booking</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- HOME SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Welcome to GrandStay Hotel</h1>
+
+            <p>
+                Experience comfort, luxury and unforgettable hospitality.
+            </p>
+
+            <a href="#booking" class="btn">Book Your Room</a>
+        </div>
+    </section>
+
+
+    <!-- ROOMS SECTION -->
+    <section id="rooms">
+
+        <div class="section-title">
+            <h2>Our Rooms</h2>
+            <p>Choose the perfect room for your stay</p>
+        </div>
+
+        <div class="rooms">
+
+            <!-- SINGLE ROOM -->
+            <div class="room-card">
+
+                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80">
+
+                <div class="room-content">
+
+                    <h3>Single Room</h3>
+
+                    <div class="price">₹2,500 / Night</div>
+
+                    <p>Comfortable room suitable for one guest.</p>
+
+                    <div class="facilities">
+                        ✔ Free Wi-Fi<br>
+                        ✔ TV<br>
+                        ✔ Air Conditioning<br>
+                        ✔ Breakfast
+                    </div>
+
+                    <button class="btn" onclick="selectRoom('Single Room')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- DOUBLE ROOM -->
+            <div class="room-card">
+
+                <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80">
+
+                <div class="room-content">
+
+                    <h3>Double Room</h3>
+
+                    <div class="price">₹3,500 / Night</div>
+
+                    <p>Spacious room suitable for two guests.</p>
+
+                    <div class="facilities">
+                        ✔ Free Wi-Fi<br>
+                        ✔ TV<br>
+                        ✔ Air Conditioning<br>
+                        ✔ Breakfast
+                    </div>
+
+                    <button class="btn" onclick="selectRoom('Double Room')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- DELUXE ROOM -->
+            <div class="room-card">
+
+                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80">
+
+                <div class="room-content">
+
+                    <h3>Deluxe Room</h3>
+
+                    <div class="price">₹5,000 / Night</div>
+
+                    <p>Luxury room with premium facilities.</p>
+
+                    <div class="facilities">
+                        ✔ Free Wi-Fi<br>
+                        ✔ Mini Bar<br>
+                        ✔ Air Conditioning<br>
+                        ✔ Breakfast
+                    </div>
+
+                    <button class="btn" onclick="selectRoom('Deluxe Room')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- SUITE ROOM -->
+            <div class="room-card">
+
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80">
+
+                <div class="room-content">
+
+                    <h3>Suite Room</h3>
+
+                    <div class="price">₹8,000 / Night</div>
+
+                    <p>Premium suite for a luxurious experience.</p>
+
+                    <div class="facilities">
+                        ✔ Free Wi-Fi<br>
+                        ✔ Living Room<br>
+                        ✔ Mini Bar<br>
+                        ✔ Room Service
+                    </div>
+
+                    <button class="btn" onclick="selectRoom('Suite Room')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- BOOKING SECTION -->
+    <section id="booking">
+
+        <div class="section-title">
+            <h2>Book Your Room</h2>
+            <p>Fill in the details below to make your reservation</p>
+        </div>
+
+        <div class="booking-container">
+
+            <form id="bookingForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Enter phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Room Type</label>
+
+                        <select id="roomType" required>
+
+                            <option value="">Select Room</option>
+
+                            <option value="Single Room">
+                                Single Room - ₹2,500
+                            </option>
+
+                            <option value="Double Room">
+                                Double Room - ₹3,500
+                            </option>
+
+                            <option value="Deluxe Room">
+                                Deluxe Room - ₹5,000
+                            </option>
+
+                            <option value="Suite Room">
+                                Suite Room - ₹8,000
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Check-in Date</label>
+                        <input type="date" id="checkin" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Check-out Date</label>
+                        <input type="date" id="checkout" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Guests</label>
+                        <input type="number" id="guests" min="1" max="10" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Rooms</label>
+                        <input type="number" id="roomsCount" min="1" max="5" value="1" required>
+                    </div>
+
+                </div>
+
+                <div id="totalAmount">
+                    Total Amount: ₹0
+                </div>
+
+                <button type="submit" class="btn">
+                    Confirm Booking
+                </button>
+
+            </form>
+
+
+            <!-- BOOKING CONFIRMATION -->
+            <div id="confirmation">
+
+                <h3>🎉 Booking Confirmed!</h3>
+
+                <p id="confirmationDetails"></p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+
+        <div class="about-container">
+
+            <div class="about-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1000&q=80">
+
+            </div>
+
+
+            <div class="about-text">
+
+                <h2>About GrandStay Hotel</h2>
+
+                <p>
+                    GrandStay Hotel provides comfortable rooms,
+                    excellent service and modern facilities for
+                    business and leisure travelers.
+                </p>
+
+                <p>
+                    Our goal is to provide every guest with a
+                    comfortable, safe and memorable stay.
+                </p>
+
+
+                <div class="facilities-list">
+
+                    <div class="facility">📶 Free Wi-Fi</div>
+
+                    <div class="facility">🍽 Restaurant</div>
+
+                    <div class="facility">🚗 Free Parking</div>
+
+                    <div class="facility">🛎 Room Service</div>
+
+                    <div class="facility">🕐 24/7 Reception</div>
+
+                    <div class="facility">❄ Air Conditioning</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+
+        <div class="section-title">
+            <h2>Contact Us</h2>
+            <p>We are happy to help you</p>
+        </div>
+
+
+        <div class="contact-container">
+
+            <div class="contact-info">
+
+                <h3>GrandStay Hotel</h3>
+
+                <p>📍 123 Beach Road, Chennai, Tamil Nadu</p>
+
+                <p>📞 +91 98765 43210</p>
+
+                <p>📧 grandstayhotel@gmail.com</p>
+
+                <p>
+                    We are available 24 hours a day,
+                    7 days a week.
+                </p>
+
+            </div>
+
+
+            <div class="contact-form">
+
+                <form onsubmit="sendMessage(event)">
+
+                    <input type="text" id="contactName" placeholder="Your Name" required>
+
+                    <input type="email" id="contactEmail" placeholder="Your Email" required>
+
+                    <textarea id="message" placeholder="Your Message" required></textarea>
+
+                    <button type="submit" class="btn">
+                        Send Message
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            © 2026 GrandStay Hotel. All Rights Reserved.
+        </p>
+
+        <p>
+            Hotel Room Booking System | College Mini Project
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        // Room prices
+        const roomPrices = {
+            "Single Room": 2500,
+            "Double Room": 3500,
+            "Deluxe Room": 5000,
+            "Suite Room": 8000
+        };
+
+
+        // Select room from Rooms section
+        function selectRoom(room) {
+
+            document.getElementById("roomType").value = room;
+
+            document.getElementById("booking").scrollIntoView({
+                behavior: "smooth"
+            });
+
+            calculateTotal();
+        }
+
+
+        // Calculate booking price
+        function calculateTotal() {
+
+            const roomType =
+                document.getElementById("roomType").value;
+
+            const checkin =
+                document.getElementById("checkin").value;
+
+            const checkout =
+                document.getElementById("checkout").value;
+
+            const rooms =
+                parseInt(document.getElementById("roomsCount").value) || 1;
+
+
+            if (!roomType || !checkin || !checkout) {
+
+                document.getElementById("totalAmount").innerText =
+                    "Total Amount: ₹0";
+
+                return;
+            }
+
+
+            const startDate = new Date(checkin);
+            const endDate = new Date(checkout);
+
+
+            const difference =
+                endDate - startDate;
+
+
+            const nights =
+                difference / (1000 * 60 * 60 * 24);
+
+
+            if (nights <= 0) {
+
+                document.getElementById("totalAmount").innerText =
+                    "Check-out must be after check-in.";
+
+                return;
+            }
+
+
+            const price =
+                roomPrices[roomType];
+
+
+            const total =
+                price * nights * rooms;
+
+
+            document.getElementById("totalAmount").innerText =
+                "Total Amount: ₹" + total.toLocaleString();
+
+        }
+
+
+        // Booking form submission
+        document.getElementById("bookingForm").addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById("name").value;
+
+                const email =
+                    document.getElementById("email").value;
+
+                const phone =
+                    document.getElementById("phone").value;
+
+                const roomType =
+                    document.getElementById("roomType").value;
+
+                const checkin =
+                    document.getElementById("checkin").value;
+
+                const checkout =
+                    document.getElementById("checkout").value;
+
+                const guests =
+                    document.getElementById("guests").value;
+
+                const rooms =
+                    document.getElementById("roomsCount").value;
+
+
+                const startDate =
+                    new Date(checkin);
+
+                const endDate =
+                    new Date(checkout);
+
+
+                const difference =
+                    endDate - startDate;
+
+
+                const nights =
+                    difference / (1000 * 60 * 60 * 24);
+
+
+                if (nights <= 0) {
+
+                    alert(
+                        "Please select a valid check-in and check-out date."
+                    );
+
+                    return;
+                }
+
+
+                const total =
+                    roomPrices[roomType] *
+                    nights *
+                    rooms;
+
+
+                document.getElementById(
+                    "confirmation"
+                ).style.display = "block";
+
+
+                document.getElementById(
+                    "confirmationDetails"
+                ).innerHTML = `
+
+                    <strong>Name:</strong> ${name}<br>
+
+                    <strong>Email:</strong> ${email}<br>
+
+                    <strong>Phone:</strong> ${phone}<br>
+
+                    <strong>Room:</strong> ${roomType}<br>
+
+                    <strong>Guests:</strong> ${guests}<br>
+
+                    <strong>Rooms:</strong> ${rooms}<br>
+
+                    <strong>Check-in:</strong> ${checkin}<br>
+
+                    <strong>Check-out:</strong> ${checkout}<br>
+
+                    <strong>Nights:</strong> ${nights}<br>
+
+                    <strong>Total Amount:</strong>
+                    ₹${total.toLocaleString()}
+
+                    <br><br>
+
+                    Thank you for booking with GrandStay Hotel!
+                `;
+
+
+                document.getElementById(
+                    "confirmation"
+                ).scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+
+        // Recalculate total whenever booking details change
+        document.getElementById("roomType")
+            .addEventListener("change", calculateTotal);
+
+        document.getElementById("checkin")
+            .addEventListener("change", calculateTotal);
+
+        document.getElementById("checkout")
+            .addEventListener("change", calculateTotal);
+
+        document.getElementById("roomsCount")
+            .addEventListener("input", calculateTotal);
+
+
+        // Contact form
+        function sendMessage(event) {
+
+            event.preventDefault();
+
+            const name =
+                document.getElementById("contactName").value;
+
+            alert(
+                "Thank you, " + name +
+                "! Your message has been sent successfully."
+            );
+
+            event.target.reset();
+        }
+
+    </script>
+
+</body>
+
+</html>
